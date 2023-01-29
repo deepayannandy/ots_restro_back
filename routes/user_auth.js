@@ -107,7 +107,7 @@ router.get('/',verifie_token,async (req,res)=>{
     if(!user.restroid) return res.status(400).send({"message":"No Employee branch found"});
     console.log(req.tokendata.UserType)
     try{
-        if(req.tokendata.UserType=="Super Admin"){
+        if(req.tokendata.UserType=="SuperAdmin"){
             const users=await usermodel.find();
             res.json(users)
         }
@@ -123,7 +123,7 @@ router.get('/',verifie_token,async (req,res)=>{
 //update user
 router.patch('/:id',verifie_token, getUser,async(req,res)=>{
     console.log(req.tokendata.UserType);
-    if (req.tokendata.UserType!="Admin") return res.status(500).json({message:"Access Pohibited!"})
+    if (!(req.tokendata.UserType=="Admin" || req.tokendata.UserType=="SuperAdmin")) return res.status(500).json({message:"Access Pohibited!"})
     if(req.body.email!=null){
         res.user.email=req.body.email;
     }
