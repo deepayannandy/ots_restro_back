@@ -65,6 +65,7 @@ router.post('/register',async (req,res)=>{
         Fullname:req.body.Fullname,
         mobile:req.body.mobile,
         restroid:req.body.restroid,
+        restroname:req.body.restroname,
         UserType:req.body.UserType,
         UserStatus:true, 
         password:hashedpassword,
