@@ -14,6 +14,8 @@ router.post('/',verifie_token,async (req,res)=>{
         legalName:req.body.legalName,
         active:true,
         mobile:req.body.mobile,
+        validtill:new Date(),
+        invoiceno:0,
     })
     try{
         const newRestro=await newrestro.save()

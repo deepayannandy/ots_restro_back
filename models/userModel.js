@@ -10,10 +10,6 @@ const userSchema= new mongoos.Schema({
         type:String,
         required:true
     },
-    email:{
-        type:String,
-        required:true
-    },
     UserType:{
         type:String,
         required:true
@@ -21,6 +17,10 @@ const userSchema= new mongoos.Schema({
     restroid:{
         type:String,
         required:true
+    },
+    restroname:{
+        type:String,
+        required:false
     },
     UserStatus:{
         type:Boolean,
@@ -40,10 +40,6 @@ const userSchema= new mongoos.Schema({
     },
     StatusBg:{
         type:String,
-        required:false
-    },
-    commision:{
-        type:Number,
         required:false
     },
     tips:{

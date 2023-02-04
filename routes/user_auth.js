@@ -27,7 +27,7 @@ router.post('/login',async (req,res)=>{
     if(valid.error){
         return res.status(400).send({"message":valid.error.details[0].message});
     };
-    const user=await usermodel.findOne({email:req.body.email});
+    const user=await usermodel.findOne({mobile:req.body.mobile});
     if(!user) return res.status(400).send({"message":"User dose not exist!"});
 
     // validate password
@@ -52,8 +52,8 @@ router.post('/register',async (req,res)=>{
     if(valid.error){
         return res.status(400).send(valid.error.details[0].message);
     }
-    const email_exist=await usermodel.findOne({email:req.body.email});
-    if(email_exist) return res.status(400).send({"message":"Email already exist!"});
+    const mobile_exist=await usermodel.findOne({mobile:req.body.mobile});
+    if(mobile_exist) return res.status(400).send({"message":"Mobile number already exist!"});
 
     //hash the password
     const salt= await bcrypt.genSalt(10);
@@ -64,7 +64,6 @@ router.post('/register',async (req,res)=>{
     const user= new usermodel({
         Fullname:req.body.Fullname,
         mobile:req.body.mobile,
-        email:req.body.email,
         restroid:req.body.restroid,
         UserType:req.body.UserType,
         UserStatus:true, 
@@ -72,7 +71,6 @@ router.post('/register',async (req,res)=>{
         Status:"Active",
         StatusBg:"#8BE78B",
         onBoardingDate:datenow,
-        commision:req.body.commision,
         tips:0,
     })
     try{
