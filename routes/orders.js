@@ -9,13 +9,15 @@ router.post('/',verifie_token,async (req,res)=>{
     if(!userdata)res.status(400).json({"message":"Access denied!"})
     console.log(userdata._id);
     const newOrders= new orders({
-        customerName:req.body.customerName,
+        servername:req.body.customerName,
         Ordervalue:req.body.Ordervalue,
         employeeid:userdata._id,
         restroid:userdata.restroid,
         ordersItems:req.body.ordersItems,
-        taxamount:req.body.taxamount,
+        tableno:req.body.tableno,
+        statu:false,
         timestamp:Date.now(),
+
         ordertype:req.body.ordertype,
     })
     try{

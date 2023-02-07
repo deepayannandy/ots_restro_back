@@ -1,7 +1,8 @@
+const { bool } = require("joi")
 const mongoos=require("mongoose")
 
 const ordersSchema= new mongoos.Schema({
-    customerName:{
+    servername:{
         type:String,
         required:true
     },
@@ -21,8 +22,8 @@ const ordersSchema= new mongoos.Schema({
         type:Array,
         required:true
     },
-    taxamount:{
-        type:Number,
+    tableno:{
+        type:String,
         required:true
     },
     timestamp:{
@@ -33,6 +34,10 @@ const ordersSchema= new mongoos.Schema({
         type:String,
         required:false
     },
+    statu:{
+        type:bool,
+        required:false
+    }
 })
 
 module.exports=mongoos.model('orders',ordersSchema)
