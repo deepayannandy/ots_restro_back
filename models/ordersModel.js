@@ -34,8 +34,8 @@ const ordersSchema= new mongoos.Schema({
         type:String,
         required:false
     },
-    statu:{
-        type:bool,
+    status:{
+        type:Boolean,
         required:false
     }
 })
