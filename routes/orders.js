@@ -11,7 +11,7 @@ router.post('/',verifie_token,async (req,res)=>{
     const userrestro= await restromodel.findById(userdata.restroid)
     if(!userrestro)res.status(400).json({"message":"Restro not found!"})
     console.log(userdata._id);
-    const invono=userrestro.restroName.substring(1, 4)+"-"+userrestro.invoiceno.toString();
+    const invono=userrestro.restroName.substring(0, 4)+"-"+userrestro.invoiceno.toString();
     const newOrders= new orders({
         servername:req.body.servername,
         Ordervalue:req.body.Ordervalue,
