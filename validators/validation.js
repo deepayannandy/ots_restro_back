@@ -10,6 +10,7 @@ const schema=joi.object().keys({
     restroid:joi.string().required(),
     UserStatus:joi.bool().required(),
     restroname:joi.string().required(),
+    nickname:joi.string().required(),
 });
 return schema.validate(data);
 }
