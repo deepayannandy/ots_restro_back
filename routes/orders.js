@@ -3,10 +3,13 @@ const router= express.Router()
 const orders=require("../models/ordersModel")
 const verifie_token= require("../validators/verifyToken")
 const usermodel=require("../models/userModel")
+const restromodel=require("../models/restroModel")
 
 router.post('/',verifie_token,async (req,res)=>{
     const userdata= await usermodel.findById(req.tokendata._id)
     if(!userdata)res.status(400).json({"message":"Access denied!"})
+    const userrestro= await restromodel.findById(userdata.restroid)
+    if(!userrestro)res.status(400).json({"message":"Restro not found!"})
     console.log(userdata._id);
     const newOrders= new orders({
         servername:req.body.servername,
@@ -16,11 +19,15 @@ router.post('/',verifie_token,async (req,res)=>{
         ordersItems:req.body.ordersItems,
         tableno:req.body.tableno,
         statu:false,
-        timestamp:Date.now(),
-
+        timestamp:req.body.timestamp,
+        invoiceno: userrestro.invoiceno,
         ordertype:req.body.ordertype,
     })
+    userrestro.invoiceno=userrestro.invoiceno+1
+
     try{
+        const saveRestro=await userrestro.save()
+        print(saveRestro.id)
         const newItem=await newOrders.save()
         res.status(201).json(newItem._id)
     }

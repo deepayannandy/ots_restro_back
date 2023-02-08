@@ -37,7 +37,12 @@ const ordersSchema= new mongoos.Schema({
     status:{
         type:Boolean,
         required:false
-    }
+    },
+    invoiceno:{
+        type:String,
+        required:false
+    },
+
 })
 
 module.exports=mongoos.model('orders',ordersSchema)

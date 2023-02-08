@@ -63,6 +63,7 @@ router.post('/register',async (req,res)=>{
     console.log(datenow);
     const user= new usermodel({
         Fullname:req.body.Fullname,
+        nickname:req.body.nickname,
         mobile:req.body.mobile,
         restroid:req.body.restroid,
         restroname:req.body.restroname,

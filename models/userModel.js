@@ -6,6 +6,11 @@ const userSchema= new mongoos.Schema({
         type:String,
         required:true
     },
+    nickname:
+    {
+        type:String,
+        required:true
+    },
     mobile:{
         type:String,
         required:true
