@@ -23,6 +23,7 @@ router.post('/',verifie_token,async (req,res)=>{
         timestamp:req.body.timestamp,
         invoiceno: invono,
         ordertype:req.body.ordertype,
+        isubmitted:req.body.isubmitted,
     })
     userrestro.invoiceno=userrestro.invoiceno+1
 
@@ -56,9 +57,10 @@ router.get('/',async (req,res)=>{
 
 //get by bar 
 router.get('/byrestro/:id',async (req,res)=>{
+    console.log(req.params.id);
     try{
         const menuitems=await orders.find({"restroid":req.params.id})
-        res.json(menuitems)
+        res.status(201).json(menuitems)
     }catch(error){
         res.status(500).json({message: error.message})
     }
@@ -69,6 +71,17 @@ router.get('/byrestronotsubmitted/:id',async (req,res)=>{
     try{
         const menuitems=await orders.find({"restroid":req.params.id,isubmitted:false})
         res.json(menuitems)
+    }catch(error){
+        res.status(500).json({message: error.message})
+    }
+})
+//get by bar not submitted
+router.get('/bydate/:id&:date',async (req,res)=>{
+    console.log(req.params.id)
+    console.log(req.params.date)
+    try{
+        const menuitems=await orders.find({"restroid":req.params.id,"timestamp":req.params.date})
+        res.status(201).json(menuitems)
     }catch(error){
         res.status(500).json({message: error.message})
     }

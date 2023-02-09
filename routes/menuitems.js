@@ -73,13 +73,13 @@ router.delete("/:id",async (req,res)=>{
     console.log(req.params.id)
     item=await menueItem.findById(req.params.id)
         if(item==null){
-            return res.status(404).json({message:"User unavailable!"})
+            return res.status(404).json({message:"item unavailable!"})
         }
     
 
     try{
         const reasult= await menueItem.deleteOne({_id: new mongodb.ObjectId(req.params.id)})
-        res.statusCode(201).json(reasult)
+        res.status(201).json(reasult)
     }catch(error){
         res.status(500).json({message: error.message})
     }
