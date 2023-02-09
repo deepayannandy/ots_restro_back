@@ -27,7 +27,7 @@ const ordersSchema= new mongoos.Schema({
         required:true
     },
     timestamp:{
-        type:Date,
+        type:String,
         required:true
     },
     ordertype:{
