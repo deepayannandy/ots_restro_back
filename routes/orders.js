@@ -64,6 +64,36 @@ router.get('/byrestro/:id',async (req,res)=>{
     }
 })
 
+//get by bar not submitted
+router.get('/byrestronotsubmitted/:id',async (req,res)=>{
+    try{
+        const menuitems=await orders.find({"restroid":req.params.id,isubmitted:false})
+        res.json(menuitems)
+    }catch(error){
+        res.status(500).json({message: error.message})
+    }
+})
+
+// patch order
+router.patch('/:id',verifie_token, getmenuItem,async(req,res)=>{
+    if(req.body.isubmitted!=null){
+        res.order.isubmitted=req.body.isubmitted;
+    }
+    if(req.body.Ordervalue!=null){
+        res.order.Ordervalue=req.body.Ordervalue;
+    }
+    if(req.body.ordersItems!=null){
+        res.order.ordersItems=req.body.ordersItems;
+    }
+    try{
+        const updatedorder=res.order.save()
+        res.status(201).json(updatedorder._id)
+    }catch(error){
+        res.status(500).json({message: error.message})
+    }
+
+})
+
 //middleware
 async function getmenuItem(req,res,next){
     let order

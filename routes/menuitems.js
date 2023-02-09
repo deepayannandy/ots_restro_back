@@ -15,6 +15,8 @@ router.post('/',verifie_token,async (req,res)=>{
         tax:req.body.tax,
         availableQuantity:req.body.availableQuantity,
         orderedQuantity:0,
+        itemSubCatagory:req.body.itemDetails,
+        ldcommition:req.body.ldcommition,
         updateDate:new Date()
     })
     try{

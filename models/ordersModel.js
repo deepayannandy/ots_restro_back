@@ -42,6 +42,10 @@ const ordersSchema= new mongoos.Schema({
         type:String,
         required:false
     },
+    isubmitted:{
+        type:Boolean,
+        required:true
+    }
 
 })
 

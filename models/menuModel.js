@@ -13,6 +13,10 @@ const menuSchema= new mongoos.Schema({
         type:String,
         required:true
     },
+    itemSubCatagory:{
+        type:String,
+        required:true
+    },
     restroid:{
         type:String,
         required:true
@@ -35,6 +39,10 @@ const menuSchema= new mongoos.Schema({
     },
     updateDate:{
         type:Date,
+        required:true
+    },
+    ldcommition:{
+        type:Number,
         required:true
     },
 })
