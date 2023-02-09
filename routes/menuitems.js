@@ -45,6 +45,47 @@ router.get('/',async (req,res)=>{
     }
 })
 
+//patch all item
+router.patch('/:id',verifie_token, getmenuItem,async(req,res)=>{
+    if(req.body.price!=null){
+        res.item.price=req.body.price;
+    }
+    if(req.body.ldcommition!=null){
+        res.item.ldcommition=req.body.ldcommition;
+    }
+    if(req.body.availableQuantity!=null){
+        res.item.availableQuantity=req.body.availableQuantity;
+    }
+    if(req.body.updateDate!=null){
+        res.item.updateDate=req.body.updateDate;
+    }
+
+    try{
+        const updatedorder=res.item.save()
+        res.status(201).json(updatedorder._id)
+    }catch(error){
+        res.status(500).json({message: error.message})
+    }
+
+})
+router.delete("/:id",async (req,res)=>{
+    console.log(req.params.id)
+    item=await menueItem.findById(req.params.id)
+        if(item==null){
+            return res.status(404).json({message:"User unavailable!"})
+        }
+    
+
+    try{
+        const reasult= await menueItem.deleteOne({_id: new mongodb.ObjectId(req.params.id)})
+        res.statusCode(201).json(reasult)
+    }catch(error){
+        res.status(500).json({message: error.message})
+    }
+})
+
+
+
 //get by bar 
 router.get('/byrestro/:id',async (req,res)=>{
     try{
@@ -59,9 +100,9 @@ router.get('/byrestro/:id',async (req,res)=>{
 async function getmenuItem(req,res,next){
     let item
     try{
-        item=await item.findById(req.params.id)
+        item=await menueItem.findById(req.params.id)
         if(item==null){
-            return res.status(404).json({message:"Branch unavailable!"})
+            return res.status(404).json({message:"Item unavailable!"})
         }
 
     }catch(error){
