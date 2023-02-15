@@ -68,9 +68,10 @@ router.get('/byrestro/:id',async (req,res)=>{
 
 //get by bar not submitted
 router.get('/byrestronotsubmitted/:id',async (req,res)=>{
+    console.log(req.params.id)
     try{
         const menuitems=await orders.find({"restroid":req.params.id,isubmitted:false})
-        res.json(menuitems)
+        res.status(201).json(menuitems)
     }catch(error){
         res.status(500).json({message: error.message})
     }
@@ -80,7 +81,7 @@ router.get('/bydate/:id&:date',async (req,res)=>{
     console.log(req.params.id)
     console.log(req.params.date)
     try{
-        const menuitems=await orders.find({"restroid":req.params.id,"timestamp":req.params.date})
+        const menuitems=await orders.find({"restroid":req.params.id, isubmitted: true,"timestamp":{ $regex: req.params.date }})
         res.status(201).json(menuitems)
     }catch(error){
         res.status(500).json({message: error.message})
@@ -89,6 +90,7 @@ router.get('/bydate/:id&:date',async (req,res)=>{
 
 // patch order
 router.patch('/:id',verifie_token, getmenuItem,async(req,res)=>{
+    console.log(req.body.Ordervalue)
     if(req.body.isubmitted!=null){
         res.order.isubmitted=req.body.isubmitted;
     }
@@ -111,7 +113,7 @@ router.patch('/:id',verifie_token, getmenuItem,async(req,res)=>{
 async function getmenuItem(req,res,next){
     let order
     try{
-        order=await order.findById(req.params.id)
+        order=await orders.findById(req.params.id)
         if(order==null){
             return res.status(404).json({message:"Branch unavailable!"})
         }
