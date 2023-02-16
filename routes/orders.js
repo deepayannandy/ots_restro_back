@@ -39,7 +39,7 @@ router.post('/',verifie_token,async (req,res)=>{
 })
 
 //get a bar
-router.get('/:id', getmenuItem,(req,res)=>{
+router.get('/:id', getorderItem,(req,res)=>{
     res.send(res.order)
 })
 
@@ -89,8 +89,7 @@ router.get('/bydate/:id&:date',async (req,res)=>{
 })
 
 // patch order
-router.patch('/:id',verifie_token, getmenuItem,async(req,res)=>{
-    console.log(req.body.Ordervalue)
+router.patch('/:id',verifie_token, getorderItem,async(req,res)=>{
     if(req.body.isubmitted!=null){
         res.order.isubmitted=req.body.isubmitted;
     }
@@ -101,7 +100,8 @@ router.patch('/:id',verifie_token, getmenuItem,async(req,res)=>{
         res.order.ordersItems=req.body.ordersItems;
     }
     try{
-        const updatedorder=res.order.save()
+        const updatedorder=await res.order.save()
+        
         res.status(201).json(updatedorder)
     }catch(error){
         res.status(500).json({message: error.message})
@@ -110,7 +110,7 @@ router.patch('/:id',verifie_token, getmenuItem,async(req,res)=>{
 })
 
 //middleware
-async function getmenuItem(req,res,next){
+async function getorderItem(req,res,next){
     let order
     try{
         order=await orders.findById(req.params.id)
