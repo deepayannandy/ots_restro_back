@@ -31,7 +31,7 @@ router.post('/',verifie_token,async (req,res)=>{
         const saveRestro=await userrestro.save()
         console.log(saveRestro.id)
         const newItem=await newOrders.save()
-        res.status(201).json(newItem._id)
+        res.status(201).json(newItem)
     }
     catch(error){
         res.status(400).json({message:error.message})
