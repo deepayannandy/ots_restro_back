@@ -53,6 +53,21 @@ router.get('/',async (req,res)=>{
     }
 })
 
+//patch token
+router.patch('/:id',getRestro,async (req,res)=>{
+    if(req.body.ispaid!=null){
+        res.token.ispaid=req.body.ispaid;
+    }
+    try{
+        const updatedorder=await res.token.save()
+        res.status(201).json(updatedorder)
+    }catch(error){
+        res.status(500).json({message: error.message})
+    }
+
+    
+})
+
 //middleware
 async function getRestro(req,res,next){
     let Token
