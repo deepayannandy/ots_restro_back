@@ -3,6 +3,7 @@ const router= express.Router()
 const menueItem=require("../models/menuModel")
 const verifie_token= require("../validators/verifyToken")
 const mongodb=require("mongodb");
+const usermodel=require("../models/userModel")
 
 router.post('/',verifie_token,async (req,res)=>{
     console.log(req.tokendata.UserType);
@@ -37,9 +38,13 @@ router.get('/:id', getmenuItem,(req,res)=>{
 
 
 //get all bar
-router.get('/',async (req,res)=>{
+router.get('/',verifie_token,async (req,res)=>{
+    const user=await usermodel.findOne({_id:req.tokendata._id});
+    if(!user) return res.status(400).send({"message":"User dose not exist!"});
+    if(!user.restroid) return res.status(400).send({"message":"No Employee restroid found"});
+    console.log(user.restroid);
     try{
-        const menuitems=await menueItem.find()
+        const menuitems=await menueItem.find({restroid:user.restroid})
         res.json(menuitems)
     }catch(error){
         res.status(500).json({message: error.message})
@@ -91,6 +96,20 @@ router.delete("/:id",async (req,res)=>{
 router.get('/byrestro/:id',async (req,res)=>{
     try{
         const menuitems=await menueItem.find({"restroid":req.params.id})
+        res.json(menuitems)
+    }catch(error){
+        res.status(500).json({message: error.message})
+    }
+})
+
+//get by bar 
+router.get('/byrestrocat/get',verifie_token,async (req,res)=>{
+    const user=await usermodel.findOne({_id:req.tokendata._id});
+    if(!user) return res.status(400).send({"message":"User dose not exist!"});
+    if(!user.restroid) return res.status(400).send({"message":"No Employee restroid found"});
+    console.log(user.restroid);
+    try{
+        const menuitems=await menueItem.find({"restroid":user.restroid}).distinct("itemCatagory")
         res.json(menuitems)
     }catch(error){
         res.status(500).json({message: error.message})
