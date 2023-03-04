@@ -120,9 +120,24 @@ router.get('/',verifie_token,async (req,res)=>{
     }
 })
 
+//get all user
+router.get('/admin/getall',async (req,res)=>{
+    console.log("I am Called")
+    try{
+        
+            const users=await usermodel.find();
+            res.json(users)
+        
+    
+    }catch(error){
+        res.status(500).json({message: error.message})
+    }
+})
+
 //update user
 router.patch('/:id',verifie_token, getUser,async(req,res)=>{
     console.log(req.tokendata.UserType);
+    console.log(req.body.active)
     if (!(req.tokendata.UserType=="Admin" || req.tokendata.UserType=="SuperAdmin")) return res.status(500).json({message:"Access Pohibited!"})
     if(req.body.email!=null){
         res.user.email=req.body.email;
@@ -141,10 +156,12 @@ router.patch('/:id',verifie_token, getUser,async(req,res)=>{
         if (req.body.UserStatus==false){
             res.user.Status="Pending";
             res.user.StatusBg="#FEC90F";
+            res.user.UserStatus=false;
         }
         else{
             res.user.Status="Active";
             res.user.StatusBg="#8BE78B";
+            res.user.UserStatus=true;
         }
     }
     if(req.body.UserType!=null){
