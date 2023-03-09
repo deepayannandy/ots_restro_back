@@ -34,10 +34,21 @@ const restroSchema= new mongoos.Schema({
         type:Date,
         required:true
     },
+    contractDate:{
+        type:Date,
+        required:true
+    },
     invoiceno:{
         type:Number,
         required:true
     },
+    paymentRenewalDate:{
+        type:Date,
+        required:true
+    },
+    limit:{
+        type:Number,
+    }
 })
 
 module.exports=mongoos.model('Restro',restroSchema)

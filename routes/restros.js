@@ -5,7 +5,12 @@ const restro=require("../models/restroModel")
 const verifie_token= require("../validators/verifyToken")
 
 router.post('/',verifie_token,async (req,res)=>{
-    if (req.tokendata.UserType!="SuperAdmin") return res.status(500).json({message:"Access Pohibited!"})
+    // if (req.tokendata.UserType!="SuperAdmin") return res.status(500).json({message:"Access Pohibited!"})
+    var someDate = new Date(req.body.date);
+    var aDate = new Date(req.body.date);
+    let nedate=someDate.setDate(someDate.getDate() + (req.body.cduration*30));
+    let paynedate=aDate.setDate(aDate.getDate() + 30);
+    console.log(new Date(nedate))
     const newrestro= new restro({
         restroName:req.body.restroName,
         restroDetails:req.body.restroDetails,
@@ -14,8 +19,10 @@ router.post('/',verifie_token,async (req,res)=>{
         legalName:req.body.legalName,
         active:true,
         mobile:req.body.mobile,
-        validtill:new Date(),
+        validtill:nedate,
         invoiceno:0,
+        contractDate:req.body.date,
+        paymentRenewalDate:paynedate
     })
     try{
         const newRestro=await newrestro.save()
@@ -35,14 +42,36 @@ router.get('/:id', getRestro,(req,res)=>{
 
 //get all branch
 router.get('/',async (req,res)=>{
+    let allrestros=[]
     try{
         const restros=await restro.find()
-        res.json(restros)
+        restros.forEach(restro=>{
+            console.log(diffdate(restro.paymentRenewalDate))
+            restro.limit=diffdate(restro.paymentRenewalDate)
+            console.log(typeof(restro))
+            allrestros.push(restro)
+        })
+        res.json(allrestros)
     }catch(error){
         res.status(500).json({message: error.message})
     }
 })
-
+router.patch('/:id',verifie_token, getRestro,async(req,res)=>{
+    console.log(req.tokendata.UserType);
+    console.log(req.body.active)
+    // if (!(req.tokendata.UserType=="Admin" || req.tokendata.UserType=="SuperAdmin")) return res.status(500).json({message:"Access Pohibited!"})
+    console.log("i am patch")
+    if(req.body.date!=null){
+        res.Restro.paymentRenewalDate=req.body.date;
+    }
+    
+    try{
+        const newUser=await res.Restro.save()
+        res.status(201).json({"_id":newUser.id})
+    }catch(error){
+        res.status(500).json({message: error.message})
+    }
+})
 //middleware
 async function getRestro(req,res,next){
     let Restro
@@ -55,7 +84,16 @@ async function getRestro(req,res,next){
     }catch(error){
         res.status(500).json({message: error.message})
     }
+    Restro.limit=diffdate(Restro.paymentRenewalDate)
     res.Restro=Restro
     next()
+}
+
+function diffdate( date){
+    const date1=new Date();
+    const date2=new Date(date);
+    const diffTime = date2 - date1;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+    return diffDays
 }
 module.exports=router
