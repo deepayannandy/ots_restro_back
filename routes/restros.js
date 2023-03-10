@@ -37,7 +37,13 @@ router.post('/',verifie_token,async (req,res)=>{
 router.get('/:id', getRestro,(req,res)=>{
     res.send(res.Restro)
 })
-
+//get a branch
+router.get('/isactive/:id', getRestro,(req,res)=>{
+    console.log("I am called")
+    var days=res.Restro.limit
+    console.log(days)
+    res.status(201).send({days})
+})
 
 
 //get all branch

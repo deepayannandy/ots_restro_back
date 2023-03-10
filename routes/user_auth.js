@@ -123,12 +123,26 @@ router.get('/',verifie_token,async (req,res)=>{
 //get all user
 router.get('/admin/getall',async (req,res)=>{
     console.log("I am Called")
+    let adminusers=[]
     try{
-        
             const users=await usermodel.find();
-            res.json(users)
+            users.forEach(user=>{
+                if(user.UserType=="Admin"){
+                    adminusers.push(user)
+                }
+            })
+            res.json(adminusers)
         
     
+    }catch(error){
+        res.status(500).json({message: error.message})
+    }
+})
+//get all user
+router.get('/employee/getall',async (req,res)=>{
+    try{
+        const users=await usermodel.find();      
+        res.json(users)
     }catch(error){
         res.status(500).json({message: error.message})
     }

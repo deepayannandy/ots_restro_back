@@ -52,7 +52,7 @@ const sslServer=https.createServer(
     },app
 )
 
-// sslServer.listen(3443,()=> console.log("https Server is listning!"))
+sslServer.listen(3443,()=> console.log("https Server is listning!"))
 
 app.get('/s3url/:name',async (req,res)=>{
     console.log(req.params.name)
