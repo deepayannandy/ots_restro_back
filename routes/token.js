@@ -68,6 +68,18 @@ router.patch('/:id',getRestro,async (req,res)=>{
     
 })
 
+//get by bar not submitted
+router.get('/bydate/:id&:date',async (req,res)=>{
+    console.log(req.params.id)
+    console.log(req.params.date)
+    try{
+        const tokenitems=await token.find({"restroid":req.params.id, isubmitted: true,"timestamp":{ $regex: req.params.date }})
+        res.status(201).json(tokenitems)
+    }catch(error){
+        res.status(500).json({message: error.message})
+    }
+})
+
 //middleware
 async function getRestro(req,res,next){
     let Token
