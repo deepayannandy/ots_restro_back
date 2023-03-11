@@ -4,7 +4,11 @@ const orders=require("../models/ordersModel")
 const verifie_token= require("../validators/verifyToken")
 const usermodel=require("../models/userModel")
 const restromodel=require("../models/restroModel")
+const menumodel=require("../models/menuModel")
 
+let qntitem=[ "Liquor",
+"Beer",
+"Drinks"]
 router.post('/',verifie_token,async (req,res)=>{
     const userdata= await usermodel.findById(req.tokendata._id)
     if(!userdata)res.status(400).json({"message":"Access denied!"})
@@ -31,6 +35,16 @@ router.post('/',verifie_token,async (req,res)=>{
         const saveRestro=await userrestro.save()
         console.log(saveRestro.id)
         const newItem=await newOrders.save()
+        if (req.body.isubmitted){
+            let items=newItem.ordersItems
+            items.forEach(async element => {
+                if(qntitem.includes(element[4])){
+                let oitem= await menumodel.findById(element[0])
+                oitem.availableQuantity=oitem.availableQuantity-element[2]
+                oitem.save()
+                }
+            });
+        }
         res.status(201).json(newItem)
     }
     catch(error){
@@ -90,6 +104,7 @@ router.get('/bydate/:id&:date',async (req,res)=>{
 
 // patch order
 router.patch('/:id',verifie_token, getorderItem,async(req,res)=>{
+
     if(req.body.isubmitted!=null){
         res.order.isubmitted=req.body.isubmitted;
     }
@@ -101,7 +116,16 @@ router.patch('/:id',verifie_token, getorderItem,async(req,res)=>{
     }
     try{
         const updatedorder=await res.order.save()
-        
+        if (req.body.isubmitted){
+            let items=updatedorder.ordersItems
+            items.forEach(async element => {
+                if(qntitem.includes(element[4])){
+                let oitem= await menumodel.findById(element[0])
+                oitem.availableQuantity=oitem.availableQuantity-element[2]
+                oitem.save()
+                }
+            });
+        }
         res.status(201).json(updatedorder)
     }catch(error){
         res.status(500).json({message: error.message})
