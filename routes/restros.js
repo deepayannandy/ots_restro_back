@@ -22,7 +22,8 @@ router.post('/',verifie_token,async (req,res)=>{
         validtill:nedate,
         invoiceno:0,
         contractDate:req.body.date,
-        paymentRenewalDate:paynedate
+        paymentRenewalDate:paynedate,
+        tablecount:req.body.tablecount
     })
     try{
         const newRestro=await newrestro.save()
@@ -70,7 +71,9 @@ router.patch('/:id',verifie_token, getRestro,async(req,res)=>{
     if(req.body.date!=null){
         res.Restro.paymentRenewalDate=req.body.date;
     }
-    
+    if(req.body.tablecount!=null){
+        res.Restro.tablecount=req.body.tablecount;
+    }
     try{
         const newUser=await res.Restro.save()
         res.status(201).json({"_id":newUser.id})
