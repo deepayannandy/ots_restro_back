@@ -36,7 +36,8 @@ const restroRouter= require("./routes/restros")
 const menuRouter= require("./routes/menuitems")
 const ordersRouter= require("./routes/orders")
 const barfineRouter= require("./routes/barfine")
-const tokenRouter= require("./routes/token")
+const tokenRouter= require("./routes/token");
+const inventory = require("./routes/inventory");
 
 app.use("/api/user",userRouter)
 app.use("/api/restro",restroRouter)
@@ -44,6 +45,7 @@ app.use("/api/menu",menuRouter)
 app.use("/api/orders",ordersRouter)
 app.use("/api/barfine",barfineRouter)
 app.use("/api/token",tokenRouter)
+app.use("/api/inventory",inventory)
 
 const sslServer=https.createServer(
     {

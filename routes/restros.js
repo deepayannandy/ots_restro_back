@@ -35,7 +35,7 @@ router.post('/',verifie_token,async (req,res)=>{
 
 //get a branch
 router.get('/:id', getRestro,(req,res)=>{
-    res.send(res.Restro)
+    res.status(201).send([res.Restro])
 })
 //get a branch
 router.get('/isactive/:id', getRestro,(req,res)=>{

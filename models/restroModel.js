@@ -1,3 +1,4 @@
+const { tableize } = require("i/lib/methods")
 const mongoos=require("mongoose")
 
 //new bar  
@@ -47,6 +48,9 @@ const restroSchema= new mongoos.Schema({
         required:true
     },
     limit:{
+        type:Number,
+    },
+    tablecount:{
         type:Number,
     }
 })
