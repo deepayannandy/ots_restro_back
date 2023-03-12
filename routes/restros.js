@@ -68,7 +68,9 @@ router.patch('/:id',verifie_token, getRestro,async(req,res)=>{
     console.log(req.body.active)
     // if (!(req.tokendata.UserType=="Admin" || req.tokendata.UserType=="SuperAdmin")) return res.status(500).json({message:"Access Pohibited!"})
     console.log("i am patch")
-    if(req.body.date!=null){
+    console.log(typeof(req.body.date))
+    console.log(req.body.date.length)
+    if(req.body.date!=null && req.body.date.length!=0){
         res.Restro.paymentRenewalDate=req.body.date;
     }
     if(req.body.tablecount!=null){

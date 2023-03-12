@@ -45,7 +45,7 @@ const restroSchema= new mongoos.Schema({
     },
     paymentRenewalDate:{
         type:Date,
-        required:true
+        required:false
     },
     limit:{
         type:Number,
