@@ -1,6 +1,7 @@
 const express = require("express")
 const router= express.Router()
 const token=require("../models/tokenModel")
+const usermodel=require("../models/userModel")
 //create branch
 const verifie_token= require("../validators/verifyToken")
 
@@ -30,7 +31,7 @@ router.get('/:id', getRestro,(req,res)=>{
 })
 
 //get a barfine
-router.get('/query/:employeeid&:date',async (req,res)=>{
+router.get('/query/:employeeid&:date',verifie_token,async (req,res)=>{
     console.log(req.params.employeeid)
     console.log(req.params.date)
     try{
@@ -44,9 +45,13 @@ router.get('/query/:employeeid&:date',async (req,res)=>{
 
 
 //get all branch
-router.get('/',async (req,res)=>{
+router.get('/',verifie_token,async (req,res)=>{
+    console.log(req.tokendata._id)
+    const user=await usermodel.findById(req.tokendata._id)
+    if(user==undefined) return res.status(400).json({message: "User not available"})
+    console.log(user)
     try{
-        const restros=await token.find()
+        const restros=await token.find({"restroid":user.restroid})
         res.status(201).json(restros)
     }catch(error){
         res.status(500).json({message: error.message})
