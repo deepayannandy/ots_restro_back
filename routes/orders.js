@@ -61,6 +61,10 @@ router.delete('/clearOrders/:restroid',async (req,res)=>{
     console.log(req.params.restroid)
     deletedorders = await orders.deleteMany({restroid:req.params.restroid})
     console.log(deletedorders)
+    restro = await restromodel.findById(req.params.restroid)
+    restro.invoiceno=0
+    const restro= awaitrestro.save()
+    console.log(restro)
     res.send("Deletion Success!")
 })
 
