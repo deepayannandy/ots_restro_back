@@ -57,9 +57,10 @@ router.get('/:id', getorderItem,(req,res)=>{
     res.send(res.order)
 })
 
-router.delete('/clearOrders/:restroid',(req,res)=>{
+router.delete('/clearOrders/:restroid',async (req,res)=>{
     console.log(req.params.restroid)
-    orders.deleteMany({restroid:req.params.restroid})
+    deletedorders = await orders.deleteMany({restroid:req.params.restroid})
+    console.log(deletedorders)
     res.send("Deletion Success!")
 })
 
