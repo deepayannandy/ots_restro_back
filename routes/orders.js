@@ -64,6 +64,12 @@ router.delete('/clearOrders/:restroid',async (req,res)=>{
     res.send("Deletion Success!")
 })
 
+router.delete('/clearOrder/:invoiceno',async (req,res)=>{
+    console.log(req.params.invoiceno)
+    deletedorder = await orders.deleteMany({invoiceno:req.params.invoiceno})
+    console.log(deletedorder)
+    res.status(201).send("Deletion Success!")
+})
 
 //get all bar
 router.get('/',async (req,res)=>{
