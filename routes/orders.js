@@ -57,6 +57,11 @@ router.get('/:id', getorderItem,(req,res)=>{
     res.send(res.order)
 })
 
+router.delete('/clearOrders/:restroid',(req,res)=>{
+    console.log(req.params.restroid)
+    orders.deleteMany({restroid:req.params.restroid})
+    res.send("Deletion Success!")
+})
 
 
 //get all bar
