@@ -139,7 +139,7 @@ router.patch('/:id',verifie_token, getorderItem,async(req,res)=>{
                 if(qntitem.includes(element[4])){
                 let oitem= await menumodel.findById(element[0])
                 oitem.availableQuantity=oitem.availableQuantity-element[2]
-                oitem.save()
+                await oitem.save()
                 }
             });
         }
