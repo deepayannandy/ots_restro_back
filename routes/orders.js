@@ -28,6 +28,7 @@ router.post('/',verifie_token,async (req,res)=>{
         invoiceno: invono,
         ordertype:req.body.ordertype,
         isubmitted:req.body.isubmitted,
+        iscancelled:false
     })
     userrestro.invoiceno=userrestro.invoiceno+1
 
@@ -70,10 +71,17 @@ router.delete('/clearOrders/:restroid',async (req,res)=>{
 })
 
 router.delete('/clearOrder/:invoiceno',async (req,res)=>{
+    try{
     console.log(req.params.invoiceno)
-    deletedorder = await orders.deleteMany({invoiceno:req.params.invoiceno})
+    let deletedorder = await orders.findOne({invoiceno:req.params.invoiceno})
     console.log(deletedorder)
-    res.status(201).send("Deletion Success!")
+    deletedorder.iscancelled=true
+    let order= await deletedorder.save()
+    console.log(order)
+    res.status(201).send("Deletion Success!")}
+    catch(error){
+        res.status(500).json({message: error.message})
+    }
 })
 
 //get all bar

@@ -25,6 +25,10 @@ const menuSchema= new mongoos.Schema({
         type:Number,
         required:true
     },
+    purchaseprice:{
+        type:Number,
+        required:false
+    },
     tax:{
         type:Number,
         required:true

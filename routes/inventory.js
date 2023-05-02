@@ -21,7 +21,9 @@ router.post('/',verifie_token,async (req,res)=>{
         const newinventory=await newInventory.save()
         let oitem= await menumodel.findById(req.body.ItemID)
         oitem.availableQuantity=oitem.availableQuantity+(req.body.bottelQnt*req.body.perbottle)
-        oitem.save()
+        oitem.purchaseprice= req.body.amount/req.body.bottelQnt
+        let item =await oitem.save()
+        console.log(item)
         res.status(201).json(newinventory._id)
     }
     catch(error){
