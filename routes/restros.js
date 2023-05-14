@@ -23,7 +23,8 @@ router.post('/',verifie_token,async (req,res)=>{
         invoiceno:0,
         contractDate:req.body.date,
         paymentRenewalDate:paynedate,
-        tablecount:req.body.tablecount
+        tablecount:req.body.tablecount,
+        catagory:req.body.catagory,
     })
     try{
         const newRestro=await newrestro.save()
@@ -73,7 +74,10 @@ router.patch('/:id',verifie_token, getRestro,async(req,res)=>{
     if(req.body.date!=null && req.body.date.length!=0){
         res.Restro.paymentRenewalDate=req.body.date;
     }
-    if(req.body.tablecount!=null){
+    if(req.body.catagory!=null){
+        res.Restro.catagory=req.body.catagory;
+    }
+    if(req.body.tablecount!=null,req.body.tablecount!=0){
         res.Restro.tablecount=req.body.tablecount;
     }
     try{

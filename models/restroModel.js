@@ -52,6 +52,10 @@ const restroSchema= new mongoos.Schema({
     },
     tablecount:{
         type:Number,
+    },
+    catagory:{
+        type: Array,
+        required:true
     }
 })
 
