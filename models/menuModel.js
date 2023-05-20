@@ -49,6 +49,10 @@ const menuSchema= new mongoos.Schema({
         type:Number,
         required:true
     },
+    imageURL:{
+        type:String,
+        required:false
+    },
 })
 
 module.exports=mongoos.model('menu',menuSchema)

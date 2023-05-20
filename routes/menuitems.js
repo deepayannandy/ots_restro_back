@@ -19,7 +19,8 @@ router.post('/',verifie_token,async (req,res)=>{
         orderedQuantity:0,
         itemSubCatagory:req.body.itemSubCatagory,
         ldcommition:req.body.ldcommition,
-        updateDate:new Date()
+        updateDate:new Date(),
+        imageURL:req.body.imageURL,
     })
     try{
         const newItem=await newMenueitem.save()
@@ -64,6 +65,9 @@ router.patch('/:id',verifie_token, getmenuItem,async(req,res)=>{
     }
     if(req.body.updateDate!=null){
         res.item.updateDate=req.body.updateDate;
+    }
+    if(req.body.imageURL!=null){
+        res.item.imageURL=req.body.imageURL;
     }
 
     try{
