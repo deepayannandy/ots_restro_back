@@ -51,6 +51,10 @@ const userSchema= new mongoos.Schema({
         type:Number,
         required:false
     },
+    imageURL:{
+        type:String,
+        required:false
+    },
 })
 
 module.exports=mongoos.model('User',userSchema )

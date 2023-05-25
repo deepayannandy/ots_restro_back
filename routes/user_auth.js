@@ -74,6 +74,7 @@ router.post('/register',async (req,res)=>{
         StatusBg:"#8BE78B",
         onBoardingDate:datenow,
         tips:0,
+        imageURL:req.body.imageURL,
     })
     try{
         const newUser=await user.save()
@@ -164,6 +165,9 @@ router.patch('/:id',verifie_token, getUser,async(req,res)=>{
     }
     if(req.body.mobile!=null){
         res.user.mobile=req.body.mobile;
+    }
+    if(req.body.imageURL!=null){
+        res.user.imageURL=req.body.imageURL;
     }
     if(req.body.UserStatus!=null){
         res.user.UserStatus=req.body.UserStatus;
