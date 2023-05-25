@@ -11,6 +11,7 @@ const schema=joi.object().keys({
     UserStatus:joi.bool().required(),
     restroname:joi.string().required(),
     nickname:joi.string().required(),
+    imageURL:joi.string().required(),
 });
 return schema.validate(data);
 }
