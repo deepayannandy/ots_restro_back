@@ -97,6 +97,16 @@ router.delete("/:id",async (req,res)=>{
 
 
 //get by bar 
+router.get('/inventory/get',async (req,res)=>{
+    try{
+        const menuitems=await menueItem.find({"purchaseprice":{$ne:null}})
+        res.json(menuitems)
+    }catch(error){
+        res.status(500).json({message: error.message})
+    }
+})
+
+//get by bar 
 router.get('/byrestro/:id',async (req,res)=>{
     try{
         const menuitems=await menueItem.find({"restroid":req.params.id})
