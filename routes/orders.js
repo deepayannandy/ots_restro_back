@@ -127,6 +127,35 @@ router.get('/bydate/:id&:date',async (req,res)=>{
     }
 })
 
+//get between 2 days
+router.get('/report/:id&:startdate&:enddate',async (req,res)=>{
+    var getDaysArray = function(start, end) {
+        for(var arr=[],dt=new Date(start); dt<=new Date(end); dt.setDate(dt.getDate()+1)){
+            arr.push(new Date(dt).toISOString().split('T')[0]);
+        }
+        return arr;
+    };
+    console.log(req.params.id)
+    console.log(req.params.startdate)
+    console.log(req.params.enddate)
+    let days=getDaysArray(req.params.startdate,req.params.enddate)
+    const billrestro= await restromodel.findById(req.params.id)
+
+    try{
+        const menuitems=await orders.find({"restroid":req.params.id, isubmitted: true,})
+        let finalorders=[]
+        menuitems.forEach(e=>{
+            if( days.includes(e.timestamp.split(" ")[0])){
+                finalorders.push(e)
+
+            }
+        })
+        res.status(201).json({"RestroName":billrestro.restroName,"RestroAddress":billrestro.restroAddress,"StartDate":req.params.startdate,"EndDate":req.params.enddate,"RevenueItems":finalorders})
+    }catch(error){
+        res.status(500).json({message: error.message})
+    }
+})
+
 // patch order
 router.patch('/:id',verifie_token, getorderItem,async(req,res)=>{
 
