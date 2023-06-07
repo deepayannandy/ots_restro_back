@@ -142,7 +142,7 @@ router.get('/report/:id&:startdate&:enddate',async (req,res)=>{
     const billrestro= await restromodel.findById(req.params.id)
     let total=0
     try{
-        const menuitems=await orders.find({"restroid":req.params.id, isubmitted: true,})
+        const menuitems=await orders.find({"restroid":req.params.id, isubmitted: true,  iscancelled:{$ne: true}})
         let finalorders=[]
         menuitems.forEach(e=>{
             if( days.includes(e.timestamp.split(" ")[0])){
