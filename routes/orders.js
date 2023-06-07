@@ -140,17 +140,18 @@ router.get('/report/:id&:startdate&:enddate',async (req,res)=>{
     console.log(req.params.enddate)
     let days=getDaysArray(req.params.startdate,req.params.enddate)
     const billrestro= await restromodel.findById(req.params.id)
-
+    let total=0
     try{
         const menuitems=await orders.find({"restroid":req.params.id, isubmitted: true,})
         let finalorders=[]
         menuitems.forEach(e=>{
             if( days.includes(e.timestamp.split(" ")[0])){
+                total=total+e.Ordervalue;
                 finalorders.push(e)
 
             }
         })
-        res.status(201).json({"RestroName":billrestro.restroName,"RestroAddress":billrestro.restroAddress,"StartDate":req.params.startdate,"EndDate":req.params.enddate,"RevenueItems":finalorders})
+        res.status(201).json({"RestroName":billrestro.restroName,"RestroAddress":billrestro.restroAddress,"StartDate":req.params.startdate,"EndDate":req.params.enddate,"RevenueItems":finalorders,"Total":total})
     }catch(error){
         res.status(500).json({message: error.message})
     }
